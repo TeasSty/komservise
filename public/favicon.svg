@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Комсервис">
+  <rect width="64" height="64" fill="#14171c"/>
+  <rect x="6" y="6" width="52" height="52" fill="none" stroke="#1f5fbf" stroke-width="3"/>
+  <text x="32" y="40" text-anchor="middle" font-family="Arial Narrow, Arial, sans-serif" font-size="18" font-weight="700" fill="#f7f5f1">КС</text>
+</svg>
