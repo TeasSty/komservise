@@ -26,8 +26,8 @@ const jobs = [
 
 await fs.mkdir(outDir, { recursive: true })
 
-/** Hero: use regen-hero.mjs (photo_mark2_engine + sharp 2×) — keep in sync */
-console.log('hero: run `node scripts/regen-hero.mjs` (Mark II open hood / legalization)')
+/** Hero: use regen-hero.mjs (photo_14 mechanic + sharp 2×) — keep in sync */
+console.log('hero: run `node scripts/regen-hero.mjs` (photo_14 mechanic / brake work)')
 
 for (const job of jobs) {
   const input = path.join(srcDir, job.file)
