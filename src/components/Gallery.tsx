@@ -43,11 +43,7 @@ export function Gallery() {
                 <ResponsiveImage
                   name={item.id}
                   alt={item.alt}
-                  widths={
-                    item.id === 'engine-work'
-                      ? [480, 960, 1440]
-                      : [480, 960]
-                  }
+                  widths={[480, 960]}
                   sizes="(min-width: 900px) 33vw, (min-width: 600px) 50vw, 100vw"
                 />
               </button>

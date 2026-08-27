@@ -22,6 +22,12 @@ const jobs = [
   { file: 'photo_13.jpg', name: 'service-oil', widths: [400, 800], aspect: null },
   { file: 'photo_14.jpg', name: 'service-chassis', widths: [400, 800], aspect: null },
   { file: 'photo_15.jpg', name: 'service-diag', widths: [400, 800], aspect: null },
+  // New picks straight from VK album (_research/photos_vk)
+  { file: '../photos_vk/vk_18.jpg', name: 'gearbox-work', widths: [480, 960], aspect: null },
+  { file: '../photos_vk/vk_05.jpg', name: 'lift-camry', widths: [480, 960], aspect: null },
+  { file: '../photos_vk/vk_06.jpg', name: 'paint-booth', widths: [480, 960], aspect: null },
+  { file: '../photos_vk/vk_01.jpg', name: 'body-work', widths: [480, 960], aspect: null },
+  { file: '../photos_vk/vk_16.jpg', name: 'offroad-uaz', widths: [480, 960], aspect: null },
 ]
 
 await fs.mkdir(outDir, { recursive: true })

@@ -26,8 +26,8 @@ export function Legalization() {
         <div className="legalization-layout">
           <div className="legalization-media reveal">
             <ResponsiveImage
-              name="welding"
-              alt="Красный внедорожник с открытым моторным отсеком в боксе Комсервис"
+              name="offroad-uaz"
+              alt="Лифтованный УАЗ с внедорожной подготовкой в цехе Комсервис"
               widths={[480, 960]}
               sizes="(min-width: 960px) 42vw, 100vw"
             />
