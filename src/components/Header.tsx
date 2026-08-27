@@ -27,7 +27,7 @@ export function Header() {
     if (!hero) return
 
     const update = () => {
-      const threshold = Math.max(0, hero.offsetHeight - 72)
+      const threshold = Math.max(0, hero.offsetHeight - 80)
       setOverHero(window.scrollY < threshold)
     }
     update()
@@ -46,12 +46,10 @@ export function Header() {
       <div className="wrap inner">
         <a className="brand" href="#top" onClick={close}>
           <span className="brand-name">{business.name}</span>
-          <span className="brand-sub">
-            {business.address.city} · {business.hours.short}
-          </span>
+          <span className="brand-sub mono">AUTO · SARATOV</span>
         </a>
 
-        <nav aria-label="Основная навигация">
+        <nav className="nav-pill" aria-label="Основная навигация">
           <ul className="nav-desktop">
             {links.map((l) => (
               <li key={l.href}>
@@ -62,10 +60,11 @@ export function Header() {
         </nav>
 
         <div className="header-actions">
-          <a className="header-phone" href={`tel:${business.phoneTel}`}>
-            {business.phoneDisplay}
-          </a>
-          <a className="btn btn-primary header-call" href={`tel:${business.phoneTel}`}>
+          <span className="header-status mono" aria-hidden="true">
+            <span className="status-dot" />
+            {business.hours.short}
+          </span>
+          <a className="btn btn-primary header-call btn-magnetic" href={`tel:${business.phoneTel}`}>
             Позвонить
           </a>
           <button

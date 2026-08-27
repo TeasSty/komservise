@@ -9,7 +9,7 @@ export function Gallery() {
     <section className="section section-gallery" id="gallery" ref={ref}>
       <div className="wrap">
         <div className="section-head reveal">
-          <p className="eyebrow">Галерея</p>
+          <p className="eyebrow mono">04 / Галерея</p>
           <h2>Как выглядит сервис</h2>
           <p>Кадры с работ: бокс, подъёмники, моторный отсек.</p>
         </div>

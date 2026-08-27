@@ -7,7 +7,7 @@ export function Contacts() {
     <section className="section contacts" id="contacts">
       <div className="wrap">
         <div className="section-head">
-          <p className="eyebrow">Контакты</p>
+          <p className="eyebrow mono">06 / Контакты</p>
           <h2>Приезжайте на Октябрьскую, 60</h2>
           <p>
             Волжский район, 1 этаж. Ближайшие остановки — Вознесенская и

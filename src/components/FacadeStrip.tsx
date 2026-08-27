@@ -1,22 +1,24 @@
-import { business, facadeServices } from '../data/business'
+import { facadeServices } from '../data/business'
 
-/** Rating + service directions — clean ink strip under hero */
+/** Service directions ticker under hero HUD */
 export function FacadeStrip() {
   return (
-    <section className="facade-strip" aria-label="Рейтинг и направления работ">
-      <div className="wrap facade-strip-inner">
-        <p className="facade-rating">
-          <strong>{business.rating.value}</strong>
-          <span>
-            {business.rating.source} · {business.rating.ratingsCount} оценки
-          </span>
-        </p>
-        <ul className="facade-list">
-          {facadeServices.map((s) => (
-            <li key={s}>{s}</li>
+    <section className="facade-strip" aria-label="Направления работ">
+      <div className="marquee" aria-hidden="true">
+        <div className="marquee-track">
+          {[...facadeServices, ...facadeServices].map((s, i) => (
+            <span key={`${s}-${i}`} className="marquee-item mono">
+              {s}
+              <span className="marquee-sep">/</span>
+            </span>
           ))}
-        </ul>
+        </div>
       </div>
+      <ul className="visually-hidden">
+        {facadeServices.map((s) => (
+          <li key={s}>{s}</li>
+        ))}
+      </ul>
     </section>
   )
 }
