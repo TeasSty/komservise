@@ -22,10 +22,10 @@ export default function App() {
       <main id="main">
         <Hero />
         <FacadeStrip />
-        <Legalization />
         <WorkAreas />
         <Prices />
         <Process />
+        <Legalization />
         <Gallery />
         <Reviews />
         <Contacts />

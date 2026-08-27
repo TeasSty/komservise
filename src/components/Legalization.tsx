@@ -14,7 +14,7 @@ export function Legalization() {
     <section className="section section-legalization" id="legalization" ref={ref}>
       <div className="wrap">
         <div className="section-head reveal">
-          <p className="eyebrow mono">01 / Узаконивание</p>
+          <p className="eyebrow mono">04 / Узаконивание</p>
           <h2>Регистрация изменений в ГИБДД</h2>
           <p>
             Сделали тюнинг, поставили ГБО или переоборудовали фургон — без

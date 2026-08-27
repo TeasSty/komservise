@@ -76,12 +76,9 @@ export function Prices() {
     <section className="section section-air" id="prices" ref={ref}>
       <div className="wrap">
         <div className="section-head reveal">
-          <p className="eyebrow mono">03 / Прайс</p>
+          <p className="eyebrow">Прайс</p>
           <h2>Частые работы</h2>
-          <p>
-            Ориентиры по ремонту — точную сумму скажем после осмотра. Стоимость
-            узаконивания обсуждаем отдельно, зависит от типа переделки.
-          </p>
+          <p>Точную сумму скажем после осмотра — зависит от авто и объёма.</p>
         </div>
 
         <div className="price-cards">

@@ -23,11 +23,11 @@ export function WorkAreas() {
     <section className="section section-dense" id="works" ref={ref}>
       <div className="wrap">
         <div className="section-head reveal">
-          <p className="eyebrow mono">02 / Ремонт</p>
-          <h2>Классический автосервис</h2>
+          <p className="eyebrow mono">01 / Услуги</p>
+          <h2>Что ремонтируем</h2>
           <p>
-            Помимо узаконивания — ТО и ремонт легковых и лёгкого коммерческого:
-            ДВС, ходовая, электрика, проекты под автоспорт.
+            ТО и ремонт легковых и лёгкого коммерческого. ДВС, ходовая,
+            электрика — плюс проекты под автоспорт.
           </p>
         </div>
 
