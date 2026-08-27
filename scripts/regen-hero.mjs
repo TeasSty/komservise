@@ -1,20 +1,83 @@
+/**
+ * Hero pipeline: VK photo_14 → Real-ESRGAN 2× (pixteroid) → sharp tone/crop → hero-* variants
+ * Source: mechanic at brake work (VK komservise wall), 1080×1440 → 2160×2880 after upscale
+ */
 import sharp from 'sharp'
 import path from 'node:path'
 import fs from 'node:fs/promises'
+import { execFile } from 'node:child_process'
+import { promisify } from 'node:util'
+import os from 'node:os'
 
+const execFileAsync = promisify(execFile)
 const root = process.cwd()
 const outDir = path.join(root, 'public', 'images')
-/** Red Niva with open hood — bright, clear focal point, works on mobile */
-const src = path.join(root, '_research', 'photos_raw', 'photo_02.jpg')
+const enhancedDir = path.join(root, '_research', 'photos_enhanced')
+const rawSrc = path.join(root, '_research', 'photos_raw', 'photo_14.jpg')
+const enhancedSrc = path.join(enhancedDir, 'photo_14_esrgan.jpg')
 
-await fs.access(src)
+const esrganBin = path.join(
+  root,
+  'node_modules',
+  'pixteroid',
+  'bin',
+  'ncnn',
+  'realesrgan-ncnn-vulkan.exe',
+)
+const esrganModels = path.join(root, 'node_modules', 'pixteroid', 'bin', 'ncnn', 'models')
+
+/** Real-ESRGAN fails on Cyrillic paths — stage in ASCII temp dir */
+async function upscaleWithEsrgan(input, output) {
+  await fs.access(esrganBin)
+  const tmp = path.join(os.tmpdir(), 'komservise-hero')
+  await fs.mkdir(tmp, { recursive: true })
+  const tmpIn = path.join(tmp, 'hero-src.jpg')
+  const tmpOut = path.join(tmp, 'hero-esrgan.jpg')
+  await fs.copyFile(input, tmpIn)
+
+  const args = [
+    '-i',
+    tmpIn,
+    '-o',
+    tmpOut,
+    '-s',
+    '2',
+    '-n',
+    'level1',
+    '-m',
+    esrganModels,
+  ]
+  await execFileAsync(esrganBin, args)
+  await fs.mkdir(path.dirname(output), { recursive: true })
+  await fs.copyFile(tmpOut, output)
+}
+
+await fs.access(rawSrc)
+const rawMeta = await sharp(rawSrc).rotate().metadata()
+console.log('raw source', path.basename(rawSrc), `${rawMeta.width}x${rawMeta.height}`)
+
+try {
+  await fs.access(enhancedSrc)
+  const st = await fs.stat(enhancedSrc)
+  const ageMs = Date.now() - st.mtimeMs
+  if (ageMs > 7 * 24 * 3600 * 1000) throw new Error('stale')
+  console.log('using cached enhanced image')
+} catch {
+  console.log('upscaling with Real-ESRGAN (pixteroid / level1, 2×)...')
+  await upscaleWithEsrgan(rawSrc, enhancedSrc)
+}
+
+const src = enhancedSrc
 const meta = await sharp(src).rotate().metadata()
-const w = meta.width ?? 1080
-const h = meta.height ?? 1440
-console.log('source', path.basename(src), w, 'x', h)
+const w = meta.width ?? 2160
+const h = meta.height ?? 2880
+console.log('enhanced source', `${w}x${h}`)
 
 const tone = (pipeline) =>
-  pipeline.modulate({ brightness: 1.08, saturation: 1.02 }).linear(1.02, 4)
+  pipeline
+    .modulate({ brightness: 1.06, saturation: 1.04 })
+    .linear(1.03, 2)
+    .sharpen({ sigma: 0.6, m1: 0.5, m2: 0.35 })
 
 async function writeVariants(pipeline, prefix, widths) {
   for (const width of widths) {
@@ -27,7 +90,7 @@ async function writeVariants(pipeline, prefix, widths) {
   }
 }
 
-/* Desktop 16:9 — red car hood + engine bay, skip floor clutter */
+/* Desktop 16:9 — mechanic + brake disc, bright workshop */
 const targetRatio = 16 / 9
 let cw = w
 let ch = Math.round(w / targetRatio)
@@ -35,8 +98,8 @@ if (ch > h) {
   ch = h
   cw = Math.round(h * targetRatio)
 }
-const left = Math.max(0, Math.round((w - cw) / 2))
-const top = Math.max(0, Math.min(h - ch, Math.round(h * 0.17)))
+const left = 0
+const top = Math.max(0, Math.min(h - ch, Math.round(h * 0.2)))
 
 const desktop = tone(
   sharp(src).rotate().extract({ left, top, width: cw, height: ch }),
@@ -45,13 +108,13 @@ const desktop = tone(
 await writeVariants(desktop, 'hero', [768, 1280, 1920])
 console.log('desktop crop', { left, top, cw, ch })
 
-/* Mobile portrait — center on open hood / red front, room for text at bottom */
-const mTop = Math.round(h * 0.1)
-const mBottom = Math.round(h * 0.8)
+/* Mobile portrait — mechanic face + brake, room for headline at bottom */
+const mTop = Math.round(h * 0.08)
+const mBottom = Math.round(h * 0.76)
 const mch = mBottom - mTop
-let mcw = Math.round(mch * 0.68)
+let mcw = Math.round(mch * 0.72)
 if (mcw > w) mcw = w
-const mLeft = Math.max(0, Math.round((w - mcw) * 0.12))
+const mLeft = 0
 
 const mobile = tone(
   sharp(src).rotate().extract({ left: mLeft, top: mTop, width: mcw, height: mch }),
@@ -59,4 +122,4 @@ const mobile = tone(
 
 await writeVariants(mobile, 'hero-mobile', [480, 768])
 console.log('mobile crop', { left: mLeft, top: mTop, cw: mcw, ch: mch })
-console.log('hero from photo_02 (red Niva / open hood)')
+console.log('hero from photo_14 (mechanic / brake work, Real-ESRGAN 2×)')

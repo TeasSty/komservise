@@ -26,35 +26,8 @@ const jobs = [
 
 await fs.mkdir(outDir, { recursive: true })
 
-/** Hero: red Niva with open hood (photo_02) — bright, clear mobile crop */
-{
-  const input = path.join(srcDir, 'photo_02.jpg')
-  const meta = await sharp(input).rotate().metadata()
-  const w = meta.width ?? 1080
-  const h = meta.height ?? 1440
-  const targetRatio = 16 / 9
-  let cw = w
-  let ch = Math.round(w / targetRatio)
-  if (ch > h) {
-    ch = h
-    cw = Math.round(h * targetRatio)
-  }
-  const left = Math.max(0, Math.round((w - cw) / 2))
-  const top = Math.max(0, Math.min(h - ch, Math.round(h * 0.17)))
-
-  for (const width of [768, 1280, 1920]) {
-    const base = sharp(input)
-      .rotate()
-      .extract({ left, top, width: cw, height: ch })
-      .modulate({ brightness: 1.08, saturation: 1.02 })
-      .linear(1.02, 4)
-      .resize({ width, withoutEnlargement: false })
-    await base.clone().webp({ quality: 78 }).toFile(path.join(outDir, `hero-${width}.webp`))
-    await base.clone().avif({ quality: 55 }).toFile(path.join(outDir, `hero-${width}.avif`))
-    await base.clone().jpeg({ quality: 82, mozjpeg: true }).toFile(path.join(outDir, `hero-${width}.jpg`))
-  }
-  console.log('hero done (photo_02 red Niva / open hood)')
-}
+/** Hero: use regen-hero.mjs (photo_14 + Real-ESRGAN) — keep in sync */
+console.log('hero: run `node scripts/regen-hero.mjs` (photo_14 mechanic / brake work)')
 
 for (const job of jobs) {
   const input = path.join(srcDir, job.file)
