@@ -4,13 +4,17 @@ import fs from 'node:fs/promises'
 
 const root = process.cwd()
 const outDir = path.join(root, 'public', 'images')
-const src = path.join(root, '_research', 'photos_raw', 'photo_08.jpg')
+/** Red Niva with open hood — bright, clear focal point, works on mobile */
+const src = path.join(root, '_research', 'photos_raw', 'photo_02.jpg')
 
 await fs.access(src)
 const meta = await sharp(src).rotate().metadata()
 const w = meta.width ?? 1080
 const h = meta.height ?? 1440
-console.log('source', src, w, 'x', h)
+console.log('source', path.basename(src), w, 'x', h)
+
+const tone = (pipeline) =>
+  pipeline.modulate({ brightness: 1.08, saturation: 1.02 }).linear(1.02, 4)
 
 async function writeVariants(pipeline, prefix, widths) {
   for (const width of widths) {
@@ -23,7 +27,7 @@ async function writeVariants(pipeline, prefix, widths) {
   }
 }
 
-/* Desktop 16:9 — skip excess ceiling, keep car + mechanic */
+/* Desktop 16:9 — red car hood + engine bay, skip floor clutter */
 const targetRatio = 16 / 9
 let cw = w
 let ch = Math.round(w / targetRatio)
@@ -32,31 +36,27 @@ if (ch > h) {
   cw = Math.round(h * targetRatio)
 }
 const left = Math.max(0, Math.round((w - cw) / 2))
-const top = Math.max(0, Math.min(h - ch, Math.round(h * 0.42)))
+const top = Math.max(0, Math.min(h - ch, Math.round(h * 0.17)))
 
-const desktop = sharp(src)
-  .rotate()
-  .extract({ left, top, width: cw, height: ch })
-  .modulate({ brightness: 1.06, saturation: 0.92 })
-  .linear(1.04, 2)
+const desktop = tone(
+  sharp(src).rotate().extract({ left, top, width: cw, height: ch }),
+)
 
 await writeVariants(desktop, 'hero', [768, 1280, 1920])
 console.log('desktop crop', { left, top, cw, ch })
 
-/* Mobile portrait — skip ceiling, keep open hub + mechanic */
-const mTop = Math.round(h * 0.28)
-const mBottom = Math.round(h * 0.95)
+/* Mobile portrait — center on open hood / red front, room for text at bottom */
+const mTop = Math.round(h * 0.1)
+const mBottom = Math.round(h * 0.8)
 const mch = mBottom - mTop
-let mcw = Math.round(mch * 0.75)
+let mcw = Math.round(mch * 0.68)
 if (mcw > w) mcw = w
-const mLeft = Math.max(0, Math.round((w - mcw) * 0.06))
+const mLeft = Math.max(0, Math.round((w - mcw) * 0.12))
 
-const mobile = sharp(src)
-  .rotate()
-  .extract({ left: mLeft, top: mTop, width: mcw, height: mch })
-  .modulate({ brightness: 1.06, saturation: 0.92 })
-  .linear(1.04, 2)
+const mobile = tone(
+  sharp(src).rotate().extract({ left: mLeft, top: mTop, width: mcw, height: mch }),
+)
 
 await writeVariants(mobile, 'hero-mobile', [480, 768])
 console.log('mobile crop', { left: mLeft, top: mTop, cw: mcw, ch: mch })
-console.log('hero from photo_08 (engine bay / lift work)')
+console.log('hero from photo_02 (red Niva / open hood)')
