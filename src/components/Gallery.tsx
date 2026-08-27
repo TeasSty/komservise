@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { gallery } from '../data/business'
 import { ResponsiveImage } from './Picture'
-import { Lightbox, imageUrl } from './Lightbox'
+import { Lightbox } from './Lightbox'
 import { useReveal } from '../hooks/useReveal'
 
 export function Gallery() {
@@ -9,6 +9,7 @@ export function Gallery() {
   const [lightbox, setLightbox] = useState<{
     name: string
     alt: string
+    width: number
   } | null>(null)
 
   return (
@@ -31,7 +32,11 @@ export function Gallery() {
                 type="button"
                 className="gallery-open"
                 onClick={() =>
-                  setLightbox({ name: item.id, alt: item.alt })
+                  setLightbox({
+                    name: item.id,
+                    alt: item.alt,
+                    width: 960,
+                  })
                 }
                 aria-label={`Открыть фото: ${item.caption}`}
               >
@@ -54,11 +59,9 @@ export function Gallery() {
 
       {lightbox ? (
         <Lightbox
-          src={imageUrl(
-            lightbox.name,
-            lightbox.name === 'engine-work' ? 1440 : 960,
-          )}
+          name={lightbox.name}
           alt={lightbox.alt}
+          width={lightbox.width}
           onClose={() => setLightbox(null)}
         />
       ) : null}

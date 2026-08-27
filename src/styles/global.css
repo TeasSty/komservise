@@ -521,10 +521,10 @@ p {
 
 .hero-media img {
   object-fit: cover;
-  object-position: 55% 40%;
-  transform: scale(1.05);
+  object-position: 50% 55%;
+  transform: scale(1.04);
   animation: hero-zoom 1.6s var(--ease) forwards;
-  filter: saturate(0.8) contrast(1.08);
+  filter: saturate(0.88) contrast(1.06);
 }
 
 .hero-lights {
@@ -536,18 +536,18 @@ p {
 
 .headlight-glow {
   position: absolute;
-  width: 140px;
-  height: 140px;
-  left: 48%;
-  top: 38%;
+  width: 160px;
+  height: 120px;
+  left: 58%;
+  top: 48%;
   border-radius: 50%;
   background: radial-gradient(
     circle,
-    rgba(180, 230, 255, 0.75) 0%,
-    rgba(0, 229, 255, 0.25) 35%,
+    rgba(180, 230, 255, 0.7) 0%,
+    rgba(0, 229, 255, 0.22) 35%,
     transparent 70%
   );
-  filter: blur(8px);
+  filter: blur(10px);
   mix-blend-mode: screen;
   opacity: 0;
   animation: ignition-glow 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.35s forwards;
@@ -562,27 +562,27 @@ p {
 }
 
 .beam-a {
-  width: min(52vw, 520px);
-  height: 220px;
-  left: 50%;
-  top: 34%;
+  width: min(48vw, 480px);
+  height: 200px;
+  left: 55%;
+  top: 42%;
   background: radial-gradient(
     ellipse at left center,
-    rgba(180, 230, 255, 0.5) 0%,
-    rgba(0, 229, 255, 0.18) 40%,
+    rgba(180, 230, 255, 0.45) 0%,
+    rgba(0, 229, 255, 0.16) 40%,
     transparent 72%
   );
   animation: ignition 1.5s cubic-bezier(0.16, 1, 0.3, 1) 0.55s forwards;
 }
 
 .beam-b {
-  width: min(38vw, 380px);
-  height: 140px;
-  left: 52%;
-  top: 42%;
+  width: min(34vw, 340px);
+  height: 130px;
+  left: 62%;
+  top: 50%;
   background: radial-gradient(
     ellipse at left center,
-    rgba(255, 255, 255, 0.28) 0%,
+    rgba(255, 255, 255, 0.25) 0%,
     rgba(0, 229, 255, 0.1) 45%,
     transparent 75%
   );
@@ -996,119 +996,82 @@ p {
   }
 }
 
-/* Prices — full-width dense rows */
-.price-list {
+/* Prices — icon cards, no messy workshop thumbs */
+.price-cards {
   display: grid;
-  gap: 0.65rem;
+  gap: 0.75rem;
+  grid-template-columns: 1fr;
 }
 
-.price-row {
+.price-card {
   display: grid;
-  grid-template-columns: 110px minmax(0, 1fr) auto;
-  gap: 1rem;
-  align-items: center;
+  gap: 0.85rem;
+  padding: 1.25rem 1.2rem 1.35rem;
   background: var(--glass);
   border: 1px solid var(--line);
-  padding: 0.7rem;
   -webkit-tap-highlight-color: transparent;
-  transition: border-color 0.25s ease, background 0.25s ease;
+  transition: border-color 0.25s ease, background 0.25s ease, transform 0.3s var(--ease);
 }
 
-.price-thumb {
-  display: block;
-  width: 110px;
-  height: 84px;
-  padding: 0;
-  margin: 0;
-  border: 0;
-  background: var(--ink-soft);
-  cursor: zoom-in;
-  overflow: hidden;
-  flex-shrink: 0;
-  -webkit-tap-highlight-color: transparent;
+.price-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
 }
 
-.price-thumb picture,
-.price-thumb img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.price-card-icon {
+  width: 2.75rem;
+  height: 2.75rem;
+  display: grid;
+  place-items: center;
+  color: var(--cyan);
+  border: 1px solid rgba(0, 229, 255, 0.28);
+  background: rgba(0, 229, 255, 0.08);
 }
 
-.price-info {
-  min-width: 0;
+.price-card-icon svg {
+  width: 1.45rem;
+  height: 1.45rem;
 }
 
-.price-row h3 {
-  font-size: 1.08rem;
+.price-card h3 {
+  font-size: 1.12rem;
   font-weight: 600;
   letter-spacing: -0.02em;
   color: #fff;
   line-height: 1.25;
+  margin: 0;
 }
 
 .price-row-note {
   color: var(--muted);
   font-size: 0.82rem;
-  margin-top: 0.15rem;
+  margin: 0;
 }
 
-.price-row .amount {
+.price-card .amount {
   font-family: var(--font-display);
-  font-size: 1.4rem;
+  font-size: 1.45rem;
   font-weight: 700;
   color: var(--cyan);
   white-space: nowrap;
   letter-spacing: -0.03em;
-  padding-right: 0.5rem;
+  margin: 0;
 }
 
-@media (min-width: 900px) {
-  .price-list {
+@media (min-width: 700px) {
+  .price-cards {
     grid-template-columns: repeat(2, 1fr);
-    gap: 0.75rem;
-  }
-
-  .price-row {
-    grid-template-columns: 120px minmax(0, 1fr) auto;
-  }
-
-  .price-thumb {
-    width: 120px;
-    height: 90px;
+    gap: 0.85rem;
   }
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .price-row:hover {
-    border-color: rgba(0, 229, 255, 0.35);
+  .price-card:hover {
+    border-color: rgba(0, 229, 255, 0.4);
     background: var(--cyan-dim);
-  }
-
-  .price-thumb img {
-    transition: transform 0.4s var(--ease);
-  }
-
-  .price-thumb:hover img {
-    transform: scale(1.05);
-  }
-}
-
-@media (max-width: 520px) {
-  .price-row {
-    grid-template-columns: 80px minmax(0, 1fr);
-    gap: 0.75rem;
-  }
-
-  .price-thumb {
-    width: 80px;
-    height: 70px;
-  }
-
-  .price-row .amount {
-    grid-column: 2;
-    padding: 0;
-    font-size: 1.2rem;
+    transform: translateY(-2px);
   }
 }
 
@@ -1253,6 +1216,12 @@ p {
   animation: lightbox-in 0.25s ease both;
 }
 
+.lightbox-picture {
+  max-width: min(960px, 100%);
+  max-height: min(88svh, 100%);
+  display: block;
+}
+
 .lightbox-img {
   max-width: min(960px, 100%);
   max-height: min(88svh, 100%);
@@ -1262,6 +1231,7 @@ p {
   border: 1px solid var(--line-strong);
   cursor: default;
   box-shadow: 0 24px 80px rgba(0, 0, 0, 0.55);
+  background: #0a0c10;
 }
 
 .lightbox-close {

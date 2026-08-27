@@ -1,16 +1,23 @@
 import { useState } from 'react'
 import { workAreas } from '../data/business'
 import { ResponsiveImage } from './Picture'
-import { Lightbox, imageUrl } from './Lightbox'
+import { Lightbox } from './Lightbox'
 import { useReveal } from '../hooks/useReveal'
 import { useSpotlight } from '../hooks/useSpotlight'
+
+function lightboxWidth(image: string) {
+  if (image.startsWith('service-')) return 800
+  return 960
+}
 
 export function WorkAreas() {
   const ref = useReveal<HTMLElement>()
   const { onMove } = useSpotlight()
-  const [lightbox, setLightbox] = useState<{ name: string; alt: string } | null>(
-    null,
-  )
+  const [lightbox, setLightbox] = useState<{
+    name: string
+    alt: string
+    width: number
+  } | null>(null)
 
   return (
     <section className="section section-dense" id="works" ref={ref}>
@@ -36,7 +43,11 @@ export function WorkAreas() {
                 type="button"
                 className="work-card-media"
                 onClick={() =>
-                  setLightbox({ name: area.image, alt: area.imageAlt })
+                  setLightbox({
+                    name: area.image,
+                    alt: area.imageAlt,
+                    width: lightboxWidth(area.image),
+                  })
                 }
                 aria-label={`Открыть фото: ${area.title}`}
               >
@@ -67,15 +78,9 @@ export function WorkAreas() {
 
       {lightbox ? (
         <Lightbox
-          src={imageUrl(
-            lightbox.name,
-            lightbox.name.startsWith('service-')
-              ? 800
-              : lightbox.name === 'engine-work'
-                ? 1440
-                : 960,
-          )}
+          name={lightbox.name}
           alt={lightbox.alt}
+          width={lightbox.width}
           onClose={() => setLightbox(null)}
         />
       ) : null}

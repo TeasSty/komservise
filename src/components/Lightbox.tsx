@@ -1,14 +1,29 @@
 import { useEffect, useId } from 'react'
 
 type Props = {
-  src: string
+  name: string
   alt: string
+  width?: number
   onClose: () => void
 }
 
-/** Accessible fullscreen image viewer — Escape / backdrop / close button */
-export function Lightbox({ src, alt, onClose }: Props) {
+const base = import.meta.env.BASE_URL
+
+/** Prefer AVIF → WebP → JPEG at a bounded width (default 960). */
+export function lightboxSources(name: string, width = 960) {
+  const stem = `${base}images/${name}-${width}`
+  return {
+    avif: `${stem}.avif`,
+    webp: `${stem}.webp`,
+    jpg: `${stem}.jpg`,
+    width,
+  }
+}
+
+/** Accessible fullscreen viewer — loads compressed AVIF/WebP first */
+export function Lightbox({ name, alt, width = 960, onClose }: Props) {
   const titleId = useId()
+  const src = lightboxSources(name, width)
 
   useEffect(() => {
     const prev = document.body.style.overflow
@@ -38,17 +53,23 @@ export function Lightbox({ src, alt, onClose }: Props) {
       <p id={titleId} className="visually-hidden">
         {alt || 'Просмотр фото'}
       </p>
-      <img
-        className="lightbox-img"
-        src={src}
-        alt={alt}
-        onClick={(e) => e.stopPropagation()}
-      />
+      <picture className="lightbox-picture" onClick={(e) => e.stopPropagation()}>
+        <source type="image/avif" srcSet={src.avif} />
+        <source type="image/webp" srcSet={src.webp} />
+        <img
+          className="lightbox-img"
+          src={src.jpg}
+          alt={alt}
+          width={src.width}
+          decoding="async"
+          fetchPriority="high"
+        />
+      </picture>
     </div>
   )
 }
 
+/** @deprecated use Lightbox name+width — kept for any remaining callers */
 export function imageUrl(name: string, width = 960) {
-  const base = import.meta.env.BASE_URL
-  return `${base}images/${name}-${width}.jpg`
+  return lightboxSources(name, width).webp
 }
