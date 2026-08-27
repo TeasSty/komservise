@@ -1,25 +1,60 @@
+import { useEffect, useRef } from 'react'
 import { business } from '../data/business'
 import { ResponsiveImage } from './Picture'
 
 export function Hero() {
+  const stageRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const stage = stageRef.current
+    if (!stage) return
+
+    const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (!fine || reduce) return
+
+    const onMove = (e: MouseEvent) => {
+      const r = stage.getBoundingClientRect()
+      const x = ((e.clientX - r.left) / r.width) * 100
+      const y = ((e.clientY - r.top) / r.height) * 100
+      stage.style.setProperty('--hx', `${x}%`)
+      stage.style.setProperty('--hy', `${y}%`)
+    }
+
+    stage.addEventListener('mousemove', onMove)
+    return () => stage.removeEventListener('mousemove', onMove)
+  }, [])
+
   return (
     <section className="hero" id="top" aria-labelledby="hero-title">
-      <div className="hero-media" aria-hidden="true">
-        <ResponsiveImage
-          name="hero"
-          alt=""
-          widths={[768, 1280, 1920]}
-          sizes="100vw"
-          loading="eager"
-          fetchPriority="high"
-        />
+      <div className="hero-stage" ref={stageRef}>
+        <div className="hero-media" aria-hidden="true">
+          <ResponsiveImage
+            name="hero"
+            alt=""
+            widths={[768, 1280, 1920]}
+            sizes="100vw"
+            loading="eager"
+            fetchPriority="high"
+          />
+        </div>
+
+        {/* Cinematic ignition — soft beams from headlight area */}
+        <div className="hero-lights" aria-hidden="true">
+          <span className="headlight-glow" />
+          <span className="headlight-beam beam-a" />
+          <span className="headlight-beam beam-b" />
+          <span className="hero-sweep" />
+          <span className="hero-inspect" />
+        </div>
+
+        <div className="hero-grain" aria-hidden="true" />
+        <div className="hero-scrim" aria-hidden="true" />
       </div>
-      <div className="hero-grain" aria-hidden="true" />
-      <div className="hero-scrim" aria-hidden="true" />
 
       <div className="wrap hero-content">
         <p className="hero-tag mono">
-          [ {business.address.city.toUpperCase()} / АВТОТЕХЦЕНТ ]
+          [ {business.address.city.toUpperCase()} / АВТОТЕХЦЕНТР ]
         </p>
 
         <p className="hero-brand">{business.name}</p>
@@ -35,11 +70,11 @@ export function Hero() {
         </p>
 
         <div className="hero-cta">
-          <a className="btn btn-primary btn-magnetic" href={`tel:${business.phoneTel}`}>
+          <a className="btn btn-primary" href={`tel:${business.phoneTel}`}>
             Позвонить
           </a>
           <a
-            className="btn btn-ghost btn-magnetic"
+            className="btn btn-ghost"
             href={business.links.vk}
             target="_blank"
             rel="noreferrer"
