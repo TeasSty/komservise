@@ -24,7 +24,6 @@
     "@vitejs/plugin-react": "^6.1.0",
     "gh-pages": "^6.3.0",
     "oxlint": "^1.79.0",
-    "pixteroid": "^1.0.3",
     "sharp": "^0.35.3",
     "typescript": "~6.0.2",
     "vite": "^8.2.2"

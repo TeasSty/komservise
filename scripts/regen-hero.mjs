@@ -1,83 +1,45 @@
 /**
- * Hero pipeline: VK photo_14 → Real-ESRGAN 2× (pixteroid) → sharp tone/crop → hero-* variants
- * Source: mechanic at brake work (VK komservise wall), 1080×1440 → 2160×2880 after upscale
+ * Hero pipeline: VK photo_14 → sharp 2× upscale + tone/crop → hero-* variants
+ * Source: mechanic at brake work (VK komservise wall), 1080×1440 → 2160×2880
  */
 import sharp from 'sharp'
 import path from 'node:path'
 import fs from 'node:fs/promises'
-import { execFile } from 'node:child_process'
-import { promisify } from 'node:util'
-import os from 'node:os'
 
-const execFileAsync = promisify(execFile)
 const root = process.cwd()
 const outDir = path.join(root, 'public', 'images')
 const enhancedDir = path.join(root, '_research', 'photos_enhanced')
 const rawSrc = path.join(root, '_research', 'photos_raw', 'photo_14.jpg')
-const enhancedSrc = path.join(enhancedDir, 'photo_14_esrgan.jpg')
-
-const esrganBin = path.join(
-  root,
-  'node_modules',
-  'pixteroid',
-  'bin',
-  'ncnn',
-  'realesrgan-ncnn-vulkan.exe',
-)
-const esrganModels = path.join(root, 'node_modules', 'pixteroid', 'bin', 'ncnn', 'models')
-
-/** Real-ESRGAN fails on Cyrillic paths — stage in ASCII temp dir */
-async function upscaleWithEsrgan(input, output) {
-  await fs.access(esrganBin)
-  const tmp = path.join(os.tmpdir(), 'komservise-hero')
-  await fs.mkdir(tmp, { recursive: true })
-  const tmpIn = path.join(tmp, 'hero-src.jpg')
-  const tmpOut = path.join(tmp, 'hero-esrgan.jpg')
-  await fs.copyFile(input, tmpIn)
-
-  const args = [
-    '-i',
-    tmpIn,
-    '-o',
-    tmpOut,
-    '-s',
-    '2',
-    '-n',
-    'level1',
-    '-m',
-    esrganModels,
-  ]
-  await execFileAsync(esrganBin, args)
-  await fs.mkdir(path.dirname(output), { recursive: true })
-  await fs.copyFile(tmpOut, output)
-}
+const enhancedSrc = path.join(enhancedDir, 'photo_14_enhanced.jpg')
 
 await fs.access(rawSrc)
 const rawMeta = await sharp(rawSrc).rotate().metadata()
 console.log('raw source', path.basename(rawSrc), `${rawMeta.width}x${rawMeta.height}`)
 
-try {
-  await fs.access(enhancedSrc)
-  const st = await fs.stat(enhancedSrc)
-  const ageMs = Date.now() - st.mtimeMs
-  if (ageMs > 7 * 24 * 3600 * 1000) throw new Error('stale')
-  console.log('using cached enhanced image')
-} catch {
-  console.log('upscaling with Real-ESRGAN (pixteroid / level1, 2×)...')
-  await upscaleWithEsrgan(rawSrc, enhancedSrc)
-}
+await fs.mkdir(enhancedDir, { recursive: true })
+await sharp(rawSrc)
+  .rotate()
+  .resize({
+    width: (rawMeta.width ?? 1080) * 2,
+    height: (rawMeta.height ?? 1440) * 2,
+    kernel: sharp.kernel.lanczos3,
+  })
+  .median(3)
+  .sharpen({ sigma: 0.8, m1: 0.6, m2: 0.4 })
+  .jpeg({ quality: 94, mozjpeg: true })
+  .toFile(enhancedSrc)
 
 const src = enhancedSrc
 const meta = await sharp(src).rotate().metadata()
 const w = meta.width ?? 2160
 const h = meta.height ?? 2880
-console.log('enhanced source', `${w}x${h}`)
+console.log('enhanced source (sharp 2× lanczos3 + median + sharpen)', `${w}x${h}`)
 
 const tone = (pipeline) =>
   pipeline
     .modulate({ brightness: 1.06, saturation: 1.04 })
     .linear(1.03, 2)
-    .sharpen({ sigma: 0.6, m1: 0.5, m2: 0.35 })
+    .sharpen({ sigma: 0.5, m1: 0.45, m2: 0.3 })
 
 async function writeVariants(pipeline, prefix, widths) {
   for (const width of widths) {
@@ -90,7 +52,7 @@ async function writeVariants(pipeline, prefix, widths) {
   }
 }
 
-/* Desktop 16:9 — mechanic + brake disc, bright workshop */
+/* Desktop 16:9 — mechanic + brake disc */
 const targetRatio = 16 / 9
 let cw = w
 let ch = Math.round(w / targetRatio)
@@ -122,4 +84,4 @@ const mobile = tone(
 
 await writeVariants(mobile, 'hero-mobile', [480, 768])
 console.log('mobile crop', { left: mLeft, top: mTop, cw: mcw, ch: mch })
-console.log('hero from photo_14 (mechanic / brake work, Real-ESRGAN 2×)')
+console.log('hero from photo_14 (mechanic / brake work, sharp 2×)')
