@@ -73,10 +73,10 @@ export function Prices() {
   const ref = useReveal<HTMLElement>()
 
   return (
-    <section className="section section-ink" id="prices" ref={ref}>
+    <section className="section section-air" id="prices" ref={ref}>
       <div className="wrap">
         <div className="section-head reveal">
-          <p className="eyebrow mono">02 / Прайс</p>
+          <p className="eyebrow">Прайс</p>
           <h2>Частые работы</h2>
           <p>Точную сумму скажем после осмотра — зависит от авто и объёма.</p>
         </div>
