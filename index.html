@@ -31,6 +31,10 @@
     <link rel="preload" as="image" href="/images/hero-1280.webp" type="image/webp" imagesrcset="/images/hero-768.webp 768w, /images/hero-1280.webp 1280w, /images/hero-1920.webp 1920w" imagesizes="100vw" />
   </head>
   <body>
+    <script>
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual'
+      window.scrollTo(0, 0)
+    </script>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
