@@ -8,7 +8,7 @@ export function Reviews() {
     <section className="section section-reviews" id="reviews" ref={ref}>
       <div className="wrap">
         <div className="section-head reveal">
-          <p className="eyebrow mono">05 / Отзывы</p>
+          <p className="eyebrow mono">06 / Отзывы</p>
           <h2>Что пишут на Яндекс Картах</h2>
           <p>
             Фрагменты отзывов клиентов. Полная лента — на Яндекс Картах,

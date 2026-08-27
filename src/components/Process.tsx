@@ -8,7 +8,7 @@ export function Process() {
     <section className="section section-air" id="process" ref={ref}>
       <div className="wrap">
         <div className="section-head reveal">
-          <p className="eyebrow mono">03 / Как заехать</p>
+          <p className="eyebrow mono">04 / Как заехать</p>
           <h2>От звонка до чека</h2>
           <p>
             Короткая схема без «менеджер перезвонит через час». Удобно, если

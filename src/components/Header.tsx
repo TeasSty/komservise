@@ -2,7 +2,8 @@ import { useEffect, useRef, useState } from 'react'
 import { business } from '../data/business'
 
 const links = [
-  { href: '#works', label: 'Услуги' },
+  { href: '#legalization', label: 'Узаконивание' },
+  { href: '#works', label: 'Ремонт' },
   { href: '#prices', label: 'Прайс' },
   { href: '#gallery', label: 'Галерея' },
   { href: '#reviews', label: 'Отзывы' },

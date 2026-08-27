@@ -1,7 +1,7 @@
 ﻿import { business } from '../data/business'
 
 export function JsonLd() {
-  const image = `${import.meta.env.BASE_URL}images/engine-work-960.jpg`
+  const image = `${import.meta.env.BASE_URL}images/welding-960.jpg`
   const data = {
     '@context': 'https://schema.org',
     '@type': 'AutoRepair',

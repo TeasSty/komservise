@@ -1,6 +1,7 @@
 import { Header } from './components/Header'
 import { Hero } from './components/Hero'
 import { FacadeStrip } from './components/FacadeStrip'
+import { Legalization } from './components/Legalization'
 import { WorkAreas } from './components/WorkAreas'
 import { Prices } from './components/Prices'
 import { Process } from './components/Process'
@@ -21,6 +22,7 @@ export default function App() {
       <main id="main">
         <Hero />
         <FacadeStrip />
+        <Legalization />
         <WorkAreas />
         <Prices />
         <Process />

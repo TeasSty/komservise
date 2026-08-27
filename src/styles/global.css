@@ -647,6 +647,157 @@ p {
   }
 }
 
+/* Legalization — primary service direction */
+.section-legalization {
+  background: var(--paper);
+  padding-block: var(--space-2xl);
+}
+
+.legalization-layout {
+  display: grid;
+  gap: var(--space-xl);
+  margin-bottom: var(--space-xl);
+}
+
+.legalization-media {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+  background: var(--concrete-deep);
+}
+
+.legalization-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  aspect-ratio: 4 / 3;
+}
+
+.legalization-body {
+  display: grid;
+  gap: var(--space-lg);
+}
+
+.legalization-block {
+  display: grid;
+  gap: var(--space-md);
+}
+
+.legalization-subhead {
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 2.5vw, 1.75rem);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.legalization-problems {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.legalization-problem {
+  padding: 1rem 1.1rem;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--signal);
+  box-shadow: var(--shadow);
+}
+
+.legalization-problem strong {
+  display: block;
+  font-size: 1rem;
+  margin-bottom: 0.35rem;
+}
+
+.legalization-problem p {
+  color: var(--muted);
+  font-size: 0.98rem;
+}
+
+.legalization-types {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.65rem;
+}
+
+.legalization-type {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.75rem;
+  align-items: start;
+  padding: 0.9rem 1rem;
+  background: #fff;
+  border: 1px solid var(--line);
+}
+
+.legalization-type-mark {
+  width: 8px;
+  height: 8px;
+  margin-top: 0.45rem;
+  background: var(--lift);
+  border-radius: 1px;
+  flex-shrink: 0;
+}
+
+.legalization-type strong {
+  display: block;
+  font-size: 0.98rem;
+  margin-bottom: 0.25rem;
+}
+
+.legalization-type p {
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.legalization-process {
+  margin-bottom: var(--space-xl);
+}
+
+.legalization-steps .process-step h3 {
+  font-size: clamp(1.1rem, 2vw, 1.35rem);
+}
+
+.legalization-cta {
+  display: grid;
+  gap: var(--space-md);
+  padding: var(--space-lg);
+  background: #fff;
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--lift);
+  box-shadow: var(--shadow);
+}
+
+.legalization-cta p {
+  color: var(--muted);
+  max-width: 42rem;
+}
+
+.legalization-cta-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .legalization-types {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 960px) {
+  .legalization-layout {
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+    align-items: start;
+  }
+}
+
 /* Work areas — photo cards on paper */
 .work-grid {
   display: grid;
