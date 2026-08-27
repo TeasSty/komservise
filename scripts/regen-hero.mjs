@@ -1,6 +1,6 @@
 /**
- * Hero pipeline: VK photo_14 → sharp 2× upscale + tone/crop → hero-* variants
- * Source: mechanic at brake work (VK komservise wall), 1080×1440 → 2160×2880
+ * Hero pipeline: Mark II engine bay → sharp 2× upscale + tone/crop → hero-* variants
+ * Source: workshop sedan, open hood (legalization / swap), 440×280 → 880×560
  */
 import sharp from 'sharp'
 import path from 'node:path'
@@ -9,8 +9,8 @@ import fs from 'node:fs/promises'
 const root = process.cwd()
 const outDir = path.join(root, 'public', 'images')
 const enhancedDir = path.join(root, '_research', 'photos_enhanced')
-const rawSrc = path.join(root, '_research', 'photos_raw', 'photo_14.jpg')
-const enhancedSrc = path.join(enhancedDir, 'photo_14_enhanced.jpg')
+const rawSrc = path.join(root, '_research', 'photos_raw', 'photo_mark2_engine.jpg')
+const enhancedSrc = path.join(enhancedDir, 'photo_mark2_engine_enhanced.jpg')
 
 await fs.access(rawSrc)
 const rawMeta = await sharp(rawSrc).rotate().metadata()
@@ -20,26 +20,28 @@ await fs.mkdir(enhancedDir, { recursive: true })
 await sharp(rawSrc)
   .rotate()
   .resize({
-    width: (rawMeta.width ?? 1080) * 2,
-    height: (rawMeta.height ?? 1440) * 2,
+    width: (rawMeta.width ?? 440) * 2,
+    height: (rawMeta.height ?? 280) * 2,
     kernel: sharp.kernel.lanczos3,
   })
   .median(3)
-  .sharpen({ sigma: 0.8, m1: 0.6, m2: 0.4 })
+  .sharpen({ sigma: 0.85, m1: 0.55, m2: 0.35 })
   .jpeg({ quality: 94, mozjpeg: true })
   .toFile(enhancedSrc)
 
 const src = enhancedSrc
 const meta = await sharp(src).rotate().metadata()
-const w = meta.width ?? 2160
-const h = meta.height ?? 2880
+const w = meta.width ?? 880
+const h = meta.height ?? 560
 console.log('enhanced source (sharp 2× lanczos3 + median + sharpen)', `${w}x${h}`)
 
+/** Cinematic grade — lifted shadows, clean contrast, no fake flares */
 const tone = (pipeline) =>
   pipeline
-    .modulate({ brightness: 1.06, saturation: 1.04 })
-    .linear(1.03, 2)
-    .sharpen({ sigma: 0.5, m1: 0.45, m2: 0.3 })
+    .modulate({ brightness: 1.04, saturation: 1.03 })
+    .linear(1.06, -6)
+    .gamma(1.02)
+    .sharpen({ sigma: 0.55, m1: 0.48, m2: 0.32 })
 
 async function writeVariants(pipeline, prefix, widths) {
   for (const width of widths) {
@@ -52,7 +54,7 @@ async function writeVariants(pipeline, prefix, widths) {
   }
 }
 
-/* Desktop 16:9 — mechanic + brake disc */
+/* Desktop 16:9 — front quarter, open hood, engine bay */
 const targetRatio = 16 / 9
 let cw = w
 let ch = Math.round(w / targetRatio)
@@ -61,7 +63,7 @@ if (ch > h) {
   cw = Math.round(h * targetRatio)
 }
 const left = 0
-const top = Math.max(0, Math.min(h - ch, Math.round(h * 0.2)))
+const top = Math.max(0, Math.min(h - ch, Math.round(h * 0.04)))
 
 const desktop = tone(
   sharp(src).rotate().extract({ left, top, width: cw, height: ch }),
@@ -70,13 +72,13 @@ const desktop = tone(
 await writeVariants(desktop, 'hero', [768, 1280, 1920])
 console.log('desktop crop', { left, top, cw, ch })
 
-/* Mobile portrait — mechanic face + brake, room for headline at bottom */
-const mTop = Math.round(h * 0.08)
-const mBottom = Math.round(h * 0.76)
-const mch = mBottom - mTop
-let mcw = Math.round(mch * 0.72)
-if (mcw > w) mcw = w
+/* Mobile portrait — hood, grille, license plate; room for headline below */
 const mLeft = 0
+const mTop = Math.round(h * 0.02)
+const mBottom = Math.round(h * 0.98)
+const mch = mBottom - mTop
+let mcw = Math.round(mch * (9 / 16))
+if (mcw > w) mcw = w
 
 const mobile = tone(
   sharp(src).rotate().extract({ left: mLeft, top: mTop, width: mcw, height: mch }),
@@ -84,4 +86,4 @@ const mobile = tone(
 
 await writeVariants(mobile, 'hero-mobile', [480, 768])
 console.log('mobile crop', { left: mLeft, top: mTop, cw: mcw, ch: mch })
-console.log('hero from photo_14 (mechanic / brake work, sharp 2×)')
+console.log('hero from photo_mark2_engine (open hood / legalization, sharp 2×)')
