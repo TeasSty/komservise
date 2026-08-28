@@ -1214,7 +1214,7 @@ p {
 }
 
 .reviews-more {
-  margin-top: 1.5rem;
+  margin-top: 1.25rem;
 }
 
 @media (min-width: 800px) {
@@ -1461,10 +1461,12 @@ p {
   --shadow: none;
   --font-display: "Segoe UI Variable Display", "Segoe UI", Arial, sans-serif;
   --font-body: "Segoe UI Variable Text", "Segoe UI", Arial, sans-serif;
-  --wrap: min(1280px, calc(100% - 96px));
+  --wrap: min(1120px, calc(100% - 80px));
   --radius: 6px;
   --header-h: 4.5rem;
-  --section-space: clamp(6rem, 8vw, 8.5rem);
+  --section-space: clamp(4rem, 5vw, 5.5rem);
+  --section-gap: 1.75rem;
+  --grid-gap: 1rem;
 }
 
 body {
@@ -1496,13 +1498,13 @@ h3 {
 }
 
 .section-dense {
-  padding-block: clamp(4.5rem, 7vw, 7rem);
+  padding-block: clamp(3.5rem, 5vw, 5rem);
 }
 
 .section-head {
-  gap: 0.9rem;
-  margin-bottom: 3rem;
-  max-width: 46rem;
+  gap: 0.65rem;
+  margin-bottom: var(--section-gap);
+  max-width: none;
 }
 
 .section-head .eyebrow,
@@ -1798,7 +1800,7 @@ button:focus-visible {
 
 .work-grid,
 .price-cards {
-  gap: 1.5rem;
+  gap: var(--grid-gap);
 }
 
 .work-card h3,
@@ -1887,7 +1889,7 @@ button:focus-visible {
 
 @media (max-width: 899px) {
   :root {
-    --wrap: min(1280px, calc(100% - 64px));
+    --wrap: min(1120px, calc(100% - 48px));
   }
 }
 
@@ -1967,7 +1969,7 @@ button:focus-visible {
   }
 
   .section-head {
-    margin-bottom: 2.25rem;
+    margin-bottom: 1.5rem;
   }
 
   .section-head h2 {
@@ -2000,7 +2002,7 @@ button:focus-visible {
 }
 
 .section-head p {
-  max-width: 42rem;
+  max-width: 36rem;
 }
 
 /* Compact navigation: full links only when they genuinely fit */
@@ -2119,9 +2121,9 @@ button:focus-visible {
 }
 
 .work-card-body {
-  min-height: 13.5rem;
+  min-height: 0;
   align-content: start;
-  padding: 1.5rem;
+  padding: 1.15rem 1.25rem 1.25rem;
 }
 
 .work-card h3 {
@@ -2136,32 +2138,16 @@ button:focus-visible {
 
 @media (min-width: 1000px) {
   .work-grid {
-    grid-template-columns: repeat(12, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 1px;
   }
 
   .work-card {
-    grid-column: span 4;
+    grid-column: auto;
   }
 
-  .work-card:nth-child(1) {
-    grid-column: span 7;
-  }
-
-  .work-card:nth-child(2) {
-    grid-column: span 5;
-  }
-
-  .work-card:nth-child(n + 3) {
-    grid-column: span 3;
-  }
-
-  .work-card:nth-child(-n + 2) .work-card-media {
-    aspect-ratio: 16 / 8.4;
-  }
-
-  .work-card:nth-child(-n + 2) .work-card-body {
-    min-height: 12rem;
+  .work-card-media {
+    aspect-ratio: 16 / 10;
   }
 }
 
@@ -2181,10 +2167,10 @@ button:focus-visible {
 
 .price-row {
   display: grid;
-  grid-template-columns: 3rem minmax(0, 1fr) minmax(7rem, auto);
-  gap: 1.25rem;
+  grid-template-columns: 2.5rem minmax(0, 1fr) minmax(6.5rem, auto);
+  gap: 0.75rem 1rem;
   align-items: baseline;
-  padding: 1.35rem 0;
+  padding: 0.9rem 0;
   border-bottom: 1px solid var(--line);
 }
 
@@ -2229,7 +2215,7 @@ button:focus-visible {
 
 .process-step {
   position: relative;
-  padding: 1.5rem 0;
+  padding: 1.1rem 0;
 }
 
 .process-step .n {
@@ -2252,7 +2238,7 @@ button:focus-visible {
   }
 
   .process-step {
-    padding: 2rem 1.5rem 0 0;
+    padding: 1.35rem 1rem 0 0;
     border-top: 0;
   }
 
@@ -2285,7 +2271,8 @@ button:focus-visible {
 }
 
 .legalization-layout {
-  gap: clamp(2rem, 5vw, 5rem);
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+  margin-bottom: var(--section-gap);
 }
 
 .legalization-media-column {
@@ -2310,7 +2297,7 @@ button:focus-visible {
 
 .legalization-body {
   align-content: start;
-  gap: 2.75rem;
+  gap: 1.75rem;
 }
 
 .legalization-subhead {
@@ -2327,7 +2314,7 @@ button:focus-visible {
 .legalization-type,
 .legalization-problem {
   min-height: 0;
-  padding: 1rem 0;
+  padding: 0.75rem 0;
   border: 0;
   border-bottom: 1px solid var(--line);
   border-radius: 0;
@@ -2347,19 +2334,19 @@ button:focus-visible {
 }
 
 .legalization-process {
-  margin-block: 4rem 3rem;
-  padding-top: 2.5rem;
+  margin-block: var(--section-gap) 1.75rem;
+  padding-top: 1.75rem;
   border-top: 1px solid var(--line);
 }
 
 .legalization-process > .legalization-subhead {
-  margin-bottom: 2rem;
+  margin-bottom: 1.25rem;
 }
 
 .legalization-cta {
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
-  padding: 1.75rem;
+  padding: 1.25rem 1.35rem;
   border: 1px solid rgba(36, 87, 167, 0.25);
   border-top-width: 1px;
   background: var(--brand-soft);
@@ -2384,7 +2371,7 @@ button:focus-visible {
 }
 
 .gallery-grid {
-  gap: 1rem;
+  gap: 0.75rem;
 }
 
 .gallery-item {
@@ -2401,29 +2388,13 @@ button:focus-visible {
 
 @media (min-width: 900px) {
   .gallery-grid {
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-    grid-auto-flow: dense;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--grid-gap);
   }
 
   .gallery-item {
-    grid-column: span 4;
+    grid-column: auto;
     aspect-ratio: 4 / 3;
-  }
-
-  .gallery-item:nth-child(1) {
-    grid-column: span 7;
-    grid-row: span 2;
-    aspect-ratio: auto;
-  }
-
-  .gallery-item:nth-child(2) {
-    grid-column: span 5;
-    aspect-ratio: 16 / 9;
-  }
-
-  .gallery-item:nth-child(3) {
-    grid-column: span 5;
-    aspect-ratio: 16 / 9;
   }
 }
 
@@ -2436,8 +2407,8 @@ button:focus-visible {
 .rating-line {
   justify-content: space-between;
   align-items: end;
-  margin-bottom: 3rem;
-  padding-block: 1.25rem;
+  margin-bottom: var(--section-gap);
+  padding-block: 0.9rem;
   border-top: 1px solid var(--ink);
   border-bottom: 1px solid var(--line);
 }
@@ -2474,7 +2445,7 @@ button:focus-visible {
 }
 
 .review-card {
-  padding: 1.75rem 0;
+  padding: 1.25rem 0;
   border-left: 0;
   border-bottom: 1px solid var(--line);
 }
@@ -2492,20 +2463,12 @@ button:focus-visible {
 
 @media (min-width: 800px) {
   .reviews-grid {
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-    column-gap: 2rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--grid-gap);
   }
 
   .review-card {
-    grid-column: span 6;
-  }
-
-  .review-card:first-child {
-    grid-column: span 7;
-  }
-
-  .review-card:nth-child(2) {
-    grid-column: 8 / span 5;
+    grid-column: auto;
   }
 }
 
@@ -2532,12 +2495,12 @@ button:focus-visible {
 }
 
 .contact-card {
-  padding: clamp(1.5rem, 4vw, 3rem);
+  padding: clamp(1.25rem, 3vw, 2rem);
   background: var(--surface-raised);
 }
 
 .contact-row {
-  padding-block: 1rem;
+  padding-block: 0.75rem;
   border-bottom-color: var(--line);
 }
 
@@ -2614,9 +2577,9 @@ button:focus-visible {
 
   .price-row {
     grid-template-columns: 2rem minmax(0, 1fr);
-    gap: 0.5rem 0.75rem;
+    gap: 0.4rem 0.65rem;
     align-items: start;
-    padding-block: 1.15rem;
+    padding-block: 0.85rem;
   }
 
   .price-row .amount {
@@ -2629,7 +2592,7 @@ button:focus-visible {
   }
 
   .legalization-process {
-    margin-top: 3rem;
+    margin-top: 2rem;
   }
 
   .legalization-cta {
@@ -2665,7 +2628,7 @@ button:focus-visible {
 
 @media (max-width: 360px) {
   :root {
-    --wrap: calc(100% - 28px);
+    --wrap: calc(100% - 40px);
   }
 
   .brand-name {
