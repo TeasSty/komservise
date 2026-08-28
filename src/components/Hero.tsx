@@ -1,5 +1,4 @@
 import { business } from '../data/business'
-import { ExplodedBrake } from './ExplodedBrake'
 
 const base = import.meta.env.BASE_URL
 
@@ -55,7 +54,6 @@ export function Hero() {
         </picture>
       </div>
       <div className="hero-scrim" aria-hidden="true" />
-      <ExplodedBrake />
 
       <div className="wrap hero-content">
         <p className="hero-brand">{business.name}</p>
