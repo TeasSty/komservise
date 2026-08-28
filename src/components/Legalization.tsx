@@ -24,28 +24,21 @@ export function Legalization() {
         </div>
 
         <div className="legalization-layout">
-          <div className="legalization-media reveal">
-            <ResponsiveImage
-              name="offroad-uaz"
-              alt="Лифтованный УАЗ с внедорожной подготовкой в цехе Комсервис"
-              widths={[480, 960]}
-              sizes="(min-width: 960px) 42vw, 100vw"
-            />
+          <div className="legalization-media-column reveal">
+            <div className="legalization-media">
+              <ResponsiveImage
+                name="offroad-uaz"
+                alt="Лифтованный УАЗ с внедорожной подготовкой в цехе Комсервис"
+                widths={[480, 960]}
+                sizes="(min-width: 960px) 42vw, 100vw"
+              />
+            </div>
+            <p className="legalization-caption">
+              Оформление изменений — отдельное направление сервиса.
+            </p>
           </div>
 
           <div className="legalization-body">
-            <div className="legalization-block reveal">
-              <h3 className="legalization-subhead">Зачем оформлять</h3>
-              <ul className="legalization-problems">
-                {legalizationProblems.map((item) => (
-                  <li key={item.title} className="legalization-problem">
-                    <strong>{item.title}</strong>
-                    <p>{item.text}</p>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
             <div className="legalization-block reveal">
               <h3 className="legalization-subhead">Что узаконяем</h3>
               <ul className="legalization-types">
@@ -56,6 +49,18 @@ export function Legalization() {
                       <strong>{item.title}</strong>
                       <p>{item.text}</p>
                     </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="legalization-block legalization-risks reveal">
+              <h3 className="legalization-subhead">Зачем оформлять</h3>
+              <ul className="legalization-problems">
+                {legalizationProblems.map((item) => (
+                  <li key={item.title} className="legalization-problem">
+                    <strong>{item.title}</strong>
+                    <p>{item.text}</p>
                   </li>
                 ))}
               </ul>

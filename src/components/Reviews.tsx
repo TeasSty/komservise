@@ -17,11 +17,19 @@ export function Reviews() {
         </div>
 
         <div className="rating-line reveal">
-          <span className="score">{business.rating.value}</span>
-          <span className="meta">
+          <div>
+            <span className="score">{business.rating.value}</span>
+            <span className="rating-stars" aria-label="Рейтинг 4,8 из 5">★★★★★</span>
+          </div>
+          <a
+            className="meta"
+            href={business.links.yandexReviews}
+            target="_blank"
+            rel="noreferrer"
+          >
             {business.rating.ratingsCount} оценки · {business.rating.reviewsCount}{' '}
-            отзывов · {business.rating.source}
-          </span>
+            отзывов · {business.rating.source} ↗
+          </a>
         </div>
 
         <div className="reviews-grid">

@@ -17,7 +17,7 @@ export function Contacts() {
 
         <div className="contacts-layout">
           <div className="contact-card">
-            <div className="contact-row">
+            <div className="contact-row contact-row-primary">
               <span className="label">Телефон</span>
               <a href={`tel:${business.phoneTel}`}>{business.phoneDisplay}</a>
             </div>
